@@ -1,0 +1,91 @@
+<div class="panel panel-default">
+	<div class="panel-body">
+
+		<form id="document-edit" #f="ngForm" (ngSubmit)="onSubmit(f)">
+			<div class="row">
+
+				<div class="col-sm-12 form-group">
+					<label for="name">Document title</label>
+					<input 
+						#name="ngModel" 
+						name="name" 
+						type="text" 
+						id="name" 
+						class="form-control" 
+						size="120" 
+						maxlength="120"
+						[(ngModel)]="document.name" 
+						required>
+					<div *ngIf="name.invalid && name.touched" class="text-danger">
+						Document title is required
+					</div>
+				</div>
+
+				<div class="col-sm-12 form-group">
+					<label for="description">Document description</label>
+					<input 
+						name="description" 
+						type="text" 
+						id="description" 
+						class="form-control" 
+						size="120" 
+						maxlength="255"
+						[(ngModel)]="document.description">
+				</div>
+
+				<div class="col-sm-12 form-group">
+					<label for="url">Document URL</label>
+					<input 
+						#url="ngModel" 
+						name="url" 
+						type="text" 
+						id="url" 
+						class="form-control" 
+						size="150"
+						maxlength="255" 
+						[(ngModel)]="document.url" 
+						required>
+					<div *ngIf="url.invalid && url.touched" class="text-danger">
+						Document URL is required
+					</div>
+				</div>
+			</div>
+			
+			<div class="alert alert-danger" *ngIf="(name.invalid || url.invalid) && (name.touched || url.touched)">
+				The Document Title and URL are required fields!
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 btn-toolbar">
+					<button 
+						class="btn btn-success" 
+						type="submit" 
+						[disabled]="!f.valid"
+						(click)="onSubmit(f)">
+						Save
+					</button>
+					<button 
+						class="btn btn-primary" 
+						type="button" 
+						(click)="onCancel()">
+						Cancel
+					</button>
+				</div>
+			</div>
+
+			<!-- DEBUG INFO (remove in production) -->
+			<div class="alert alert-info" style="margin-top: 20px;">
+				<strong>Debug Info:</strong><br>
+				Form Valid: {{f.valid}}<br>
+				Form Submitted: {{f.submitted}}<br>
+				Name Valid: {{name.valid}}<br>
+				URL Valid: {{url.valid}}<br>
+				Edit Mode: {{editMode}}<br>
+				Document Name: {{document.name}}<br>
+				Document URL: {{document.url}}
+			</div>
+
+		</form>
+
+	</div>
+</div>
