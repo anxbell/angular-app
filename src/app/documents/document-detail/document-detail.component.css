@@ -2,6 +2,7 @@
   font-weight: bold;
   padding-left: 1rem;
   padding-right: 1rem;
+  color: #333;
 }
 
 .margin-left-right{
@@ -12,4 +13,32 @@
 .pad-left-right{
   margin-left:1rem;
   margin-right:1rem;
+}
+
+.panel {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.panel-heading {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.label-value {
+  font-size: 14px;
+}
+
+.panel-body label {
+  color: #495057;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.panel-body a {
+  word-break: break-all;
+}
+
+.panel-body a:hover {
+  text-decoration: underline !important;
 }

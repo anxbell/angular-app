@@ -1,5 +1,30 @@
-<a class="list-group-item clearfix documentDiv" 
+<a class="list-group-item clearfix documentDiv eyeglasses-card" 
   [routerLink]="[document.id]"
   routerLinkActive="active">
-  {{ document.name }}<!-- Display document -->
+  
+  <!-- Eyeglasses Icon -->
+  <div class="eyeglasses-icon">
+    👓
+  </div>
+  
+  <!-- Product Name -->
+  <div class="product-name">
+    {{ document.name }}
+  </div>
+  
+  <!-- Brand -->
+  <div class="brand-name">
+    {{ document.brand }}
+  </div>
+  
+  <!-- Price -->
+  <div class="price" *ngIf="document.price">
+    ${{ document.price.toFixed(2) }}
+  </div>
+  
+  <!-- Frame Type -->
+  <div class="frame-type" *ngIf="document.frameType">
+    {{ document.frameType }}
+  </div>
+  
 </a>

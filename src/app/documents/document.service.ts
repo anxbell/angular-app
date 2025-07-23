@@ -13,34 +13,46 @@ export class DocumentService {
   documentChangedEvent = new Subject<Document[]>();
   maxDocumentId: number;
   // url: string = 'https://the-cms-project-default-rtdb.firebaseio.com/documents.json';
-  url: string = 'http://localhost:3000/documents';
+  // url: string = 'http://localhost:3000/documents';
 
 
   constructor(private http: HttpClient) {
-    // this.documents = MOCKDOCUMENTS;
+    this.documents = MOCKDOCUMENTS;
     this.getDocuments();
     this.maxDocumentId = this.getMaxId();
 
   }
+  // getDocuments() {
+  //   this.http
+  //     .get<Document[]>(this.url)
+  //     .subscribe(
+  //       (documents: Document[]) => {
+  //         this.documents = documents;
+  //         this.maxDocumentId = this.getMaxId();
+  //         this.documents.sort((a, b) => {
+  //           if (a.name < b.name) return -1;
+  //           if (a.name > b.name) return 1;
+  //           return 0;
+  //         });
+  //         this.documentChangedEvent.next(this.documents.slice());
+  //       },
+  //       (error) => {
+  //         console.error(error);
+  //       }
+  //     );
+  // }
+
   getDocuments() {
-    this.http
-      .get<Document[]>(this.url)
-      .subscribe(
-        (documents: Document[]) => {
-          this.documents = documents;
-          this.maxDocumentId = this.getMaxId();
-          this.documents.sort((a, b) => {
-            if (a.name < b.name) return -1;
-            if (a.name > b.name) return 1;
-            return 0;
-          });
-          this.documentChangedEvent.next(this.documents.slice());
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
-  }
+  // Temporarily use mock data instead of HTTP call
+  this.documents = MOCKDOCUMENTS;
+  this.maxDocumentId = this.getMaxId();
+  this.documents.sort((a, b) => {
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
+    return 0;
+  });
+  this.documentChangedEvent.next(this.documents.slice());
+}
 
 
   getDocument(id: string): Document | null {
@@ -104,10 +116,11 @@ export class DocumentService {
   }
 
   storeDocuments() {
-  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  this.http.put(this.url, JSON.stringify(this.documents), { headers }).subscribe(() => {
     this.documentChangedEvent.next(this.documents.slice());
-  });
+  // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  // this.http.put(this.url, JSON.stringify(this.documents), { headers }).subscribe(() => {
+  //   this.documentChangedEvent.next(this.documents.slice());
+  // });
 }
 
 }

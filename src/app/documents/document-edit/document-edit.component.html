@@ -1,11 +1,15 @@
 <div class="panel panel-default">
+	<div class="panel-heading">
+		<h3>{{ editMode ? 'Edit Eyeglasses' : 'Add New Eyeglasses' }}</h3>
+	</div>
 	<div class="panel-body">
 
 		<form id="document-edit" #f="ngForm" (ngSubmit)="onSubmit(f)">
 			<div class="row">
 
+				<!-- Product Name -->
 				<div class="col-sm-12 form-group">
-					<label for="name">Document title</label>
+					<label for="name">Product Name *</label>
 					<input 
 						#name="ngModel" 
 						name="name" 
@@ -14,45 +18,124 @@
 						class="form-control" 
 						size="120" 
 						maxlength="120"
+						placeholder="e.g., Ray-Ban Aviator Classic"
 						[(ngModel)]="document.name" 
 						required>
 					<div *ngIf="name.invalid && name.touched" class="text-danger">
-						Document title is required
+						Product name is required
 					</div>
 				</div>
 
-				<div class="col-sm-12 form-group">
-					<label for="description">Document description</label>
+				<!-- Brand -->
+				<div class="col-sm-6 form-group">
+					<label for="brand">Brand</label>
 					<input 
-						name="description" 
+						name="brand" 
 						type="text" 
-						id="description" 
+						id="brand" 
 						class="form-control" 
-						size="120" 
-						maxlength="255"
-						[(ngModel)]="document.description">
+						maxlength="50"
+						placeholder="e.g., Ray-Ban, Oakley, Warby Parker"
+						[(ngModel)]="document.brand">
 				</div>
 
+				<!-- Price -->
+				<div class="col-sm-6 form-group">
+					<label for="price">Price ($)</label>
+					<input 
+						name="price" 
+						type="number" 
+						id="price" 
+						class="form-control" 
+						min="0" 
+						step="0.01"
+						placeholder="0.00"
+						[(ngModel)]="document.price">
+				</div>
+
+				<!-- Frame Type -->
+				<div class="col-sm-6 form-group">
+					<label for="frameType">Frame Type</label>
+					<select 
+						name="frameType" 
+						id="frameType" 
+						class="form-control"
+						[(ngModel)]="document.frameType">
+						<option value="">Select frame type</option>
+						<option value="Metal">Metal</option>
+						<option value="Acetate">Acetate</option>
+						<option value="TR90">TR90</option>
+						<option value="Titanium">Titanium</option>
+						<option value="Plastic">Plastic</option>
+						<option value="O Matter">O Matter</option>
+						<option value="Mixed">Mixed Materials</option>
+					</select>
+				</div>
+
+				<!-- Lens Color -->
+				<div class="col-sm-6 form-group">
+					<label for="lensColor">Lens Color</label>
+					<input 
+						name="lensColor" 
+						type="text" 
+						id="lensColor" 
+						class="form-control" 
+						maxlength="50"
+						placeholder="e.g., Clear, Crystal Green, Brown"
+						[(ngModel)]="document.lensColor">
+				</div>
+
+				<!-- UV Protection -->
 				<div class="col-sm-12 form-group">
-					<label for="url">Document URL</label>
+					<label for="uvProtection">UV Protection</label>
+					<select 
+						name="uvProtection" 
+						id="uvProtection" 
+						class="form-control"
+						[(ngModel)]="document.uvProtection">
+						<option value="">Select protection type</option>
+						<option value="100% UV">100% UV Protection</option>
+						<option value="100% UV + Polarized">100% UV + Polarized</option>
+						<option value="Blue Light Blocking">Blue Light Blocking</option>
+						<option value="Anti-Reflective">Anti-Reflective</option>
+						<option value="UV Protection Available">UV Protection Available</option>
+					</select>
+				</div>
+
+				<!-- Description -->
+				<div class="col-sm-12 form-group">
+					<label for="description">Description</label>
+					<textarea 
+						name="description" 
+						id="description" 
+						class="form-control" 
+						rows="4"
+						maxlength="500"
+						placeholder="Describe the eyeglasses features, style, and benefits..."
+						[(ngModel)]="document.description"></textarea>
+				</div>
+
+				<!-- Product URL -->
+				<div class="col-sm-12 form-group">
+					<label for="url">Product URL *</label>
 					<input 
 						#url="ngModel" 
 						name="url" 
-						type="text" 
+						type="url" 
 						id="url" 
 						class="form-control" 
-						size="150"
-						maxlength="255" 
+						maxlength="255"
+						placeholder="https://example.com/product"
 						[(ngModel)]="document.url" 
 						required>
 					<div *ngIf="url.invalid && url.touched" class="text-danger">
-						Document URL is required
+						A valid product URL is required
 					</div>
 				</div>
 			</div>
 			
 			<div class="alert alert-danger" *ngIf="(name.invalid || url.invalid) && (name.touched || url.touched)">
-				The Document Title and URL are required fields!
+				Product name and URL are required fields!
 			</div>
 
 			<div class="row">
@@ -60,29 +143,18 @@
 					<button 
 						class="btn btn-success" 
 						type="submit" 
-						[disabled]="!f.valid"
-						(click)="onSubmit(f)">
-						Save
+						[disabled]="!f.valid">
+						<span class="glyphicon glyphicon-floppy-disk"></span>
+						{{ editMode ? 'Update' : 'Save' }}
 					</button>
 					<button 
-						class="btn btn-primary" 
+						class="btn btn-secondary" 
 						type="button" 
 						(click)="onCancel()">
+						<span class="glyphicon glyphicon-remove"></span>
 						Cancel
 					</button>
 				</div>
-			</div>
-
-			<!-- DEBUG INFO (remove in production) -->
-			<div class="alert alert-info" style="margin-top: 20px;">
-				<strong>Debug Info:</strong><br>
-				Form Valid: {{f.valid}}<br>
-				Form Submitted: {{f.submitted}}<br>
-				Name Valid: {{name.valid}}<br>
-				URL Valid: {{url.valid}}<br>
-				Edit Mode: {{editMode}}<br>
-				Document Name: {{document.name}}<br>
-				Document URL: {{document.url}}
 			</div>
 
 		</form>

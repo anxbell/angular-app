@@ -6,7 +6,7 @@
         <a 
           class="btn btn-primary" 
           style="margin-right: 5px;" 
-          (click)="onView()">View
+          (click)="onView()">View Details
         </a>
         <a 
           [routerLink]="['edit']" 
@@ -24,31 +24,69 @@
   </div>
   <div class="panel-body">
     <div class="pad-left-right">
-      <div class="row">
-        <label>Description:</label>
-        <span class="label-value">
-          {{ document?.description }}
-          <!-- display document description -->
-        </span>
+      
+      <!-- Basic Information -->
+      <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-6">
+          <label><strong>Brand:</strong></label>
+          <span class="label-value" style="margin-left: 10px;">
+            {{ document?.brand || 'N/A' }}
+          </span>
+        </div>
+        <div class="col-md-6">
+          <label><strong>Price:</strong></label>
+          <span class="label-value" style="margin-left: 10px; color: #28a745; font-weight: bold;">
+            {{ document?.price ? '$' + document.price.toFixed(2) : 'N/A' }}
+          </span>
+        </div>
       </div>
-      <br>
-      <div class="row">
-        <label>URL:</label>
-        <span class="label-value">
-          <!-- display document URL here -->
-          {{ document?.url }}
-        </span>
+
+      <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-6">
+          <label><strong>Frame Type:</strong></label>
+          <span class="label-value" style="margin-left: 10px;">
+            {{ document?.frameType || 'N/A' }}
+          </span>
+        </div>
+        <div class="col-md-6">
+          <label><strong>Lens Color:</strong></label>
+          <span class="label-value" style="margin-left: 10px;">
+            {{ document?.lensColor || 'N/A' }}
+          </span>
+        </div>
       </div>
+
+      <div class="row" style="margin-bottom: 15px;">
+        <div class="col-md-12">
+          <label><strong>UV Protection:</strong></label>
+          <span class="label-value" style="margin-left: 10px; color: #007bff;">
+            {{ document?.uvProtection || 'N/A' }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="row" style="margin-bottom: 15px;">
+        <div class="col-md-12">
+          <label><strong>Description:</strong></label>
+          <p class="label-value" style="margin-top: 5px; line-height: 1.5;">
+            {{ document?.description || 'No description available' }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Product URL -->
+      <div class="row">
+        <div class="col-md-12">
+          <label><strong>Product URL:</strong></label>
+          <div class="label-value" style="margin-top: 5px;">
+            <a [href]="document?.url" target="_blank" style="color: #007bff; text-decoration: none;">
+              {{ document?.url || 'No URL available' }}
+            </a>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>
-
-<!-- If you're not using child routes and instead routing like this:
-
-{ path: 'documents/:id/edit', component: DocumentEditComponent }
-Then you’d write:
-<a 
-  class="btn btn-primary"
-  [routerLink]="['/documents', document?.id, 'edit']">
-  Edit
-</a> -->
