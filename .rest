@@ -1,0 +1,48 @@
+### Get all documents
+GET http://localhost:3000/api/documents
+Content-Type: application/json
+
+
+### Get a single document by ID
+GET http://localhost:3000/api/documents/1
+Content-Type: application/json
+
+
+### Create a new document
+POST http://localhost:3000/api/documents
+Content-Type: application/json
+
+{
+  "name": "Ray-Ban Aviator Classic",
+  "url": "https://www.ray-ban.com/usa/sunglasses/RB3025",
+  "description": "Iconic metal frame sunglasses.",
+  "price": 179.99,
+  "brand": "Ray-Ban",
+  "frameType": "Metal",
+  "lensColor": "Green",
+  "uvProtection": "100% UV",
+  "children": [
+    {
+      "id": "1-1",
+      "name": "Ray-Ban Aviator Small",
+      "url": "https://www.ray-ban.com/usa/sunglasses/RB3025-small"
+    }
+  ]
+}
+
+
+### Update an existing document
+PUT http://localhost:3000/api/documents/1
+Content-Type: application/json
+
+{
+  "name": "Ray-Ban Aviator Updated",
+  "price": 189.99,
+  "frameType": "Metal",
+  "uvProtection": "100% UV + Polarized"
+}
+
+
+### Delete a document by ID
+DELETE http://localhost:3000/api/documents/1
+Content-Type: application/json

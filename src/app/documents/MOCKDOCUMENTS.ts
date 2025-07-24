@@ -11,7 +11,7 @@ export const MOCKDOCUMENTS: Document[] = [
     'Ray-Ban',
     'Metal',
     'Green',
-    '100% UV Protection',
+    '100% UV Protection + Polarized',
     'https://images.ray-ban.com/is/image/RayBan/805289439899__001.png?impolicy=RB_Product'
   ),
   new Document(

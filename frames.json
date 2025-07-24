@@ -2,31 +2,131 @@
   {
     "id": "1",
     "name": "Ray-Ban Aviator Classic",
-    "description": "Iconic metal frame sunglasses with crystal green lenses. Perfect for outdoor activities and driving.",
-    "url": "https://www.ray-ban.com/usa/sunglasses/RB3025%20UNISEX%20aviator%20classic-gold/805289439899"
+    "description": "Iconic metal frame sunglasses with crystal green lenses. Perfect for outdoor activities.",
+    "url": "https://www.ray-ban.com/usa/sunglasses/RB3025%20UNISEX%20aviator%20classic-gold/805289439899",
+    "children": [],
+    "price": 163.0,
+    "brand": "Ray-Ban",
+    "material": "Metal",
+    "lensColor": "Green",
+    "feature": "100% UV Protection",
+    "imageUrl": "https://images.ray-ban.com/is/image/RayBan/805289439899__001.png?impolicy=RB_Product"
   },
   {
     "id": "2",
     "name": "Oakley Holbrook",
-    "description": "Classic design fused with modern Oakley technology. Lightweight and comfortable for all-day wear.",
-    "url": "https://www.oakley.com/en-us/product/W0OO9102?variant=888392490127"
+    "description": "Sporty and durable sunglasses ideal for active lifestyles, featuring Plutonite lenses.",
+    "url": "https://www.oakley.com/en-us/product/W0OO9102",
+    "children": [],
+    "price": 145.0,
+    "brand": "Oakley",
+    "material": "O Matter™",
+    "lensColor": "Gray",
+    "feature": "100% UV Protection",
+    "imageUrl": "https://images.oakley.com/is/image/OakleyEYE/OO9102-36?$oakley-product$"
   },
   {
     "id": "3",
-    "name": "Persol PO0649",
-    "description": "Stylish acetate frame with signature arrow temples. A timeless favorite among celebrities.",
-    "url": "https://www.persol.com/usa/sunglasses/PO0649-black/8052896020577"
+    "name": "Warby Parker Clark",
+    "description": "Classic rectangular frame in Cognac Tortoise. Lightweight and stylish for everyday use.",
+    "url": "https://www.warbyparker.com/eyeglasses/men/clark/cognac-tortoise",
+    "children": [],
+    "price": 95.0,
+    "brand": "Warby Parker",
+    "material": "Acetate",
+    "lensColor": "Clear",
+    "feature": "Yes",
+    "imageUrl": "https://cdn.warbyparker.com/product-images/v1/glasses/clark/clark-cognac-tortoise-front.jpg"
   },
   {
     "id": "4",
-    "name": "Maui Jim Peahi",
-    "description": "Polarized wrap sunglasses designed for active lifestyles. Excellent clarity and color enhancement.",
-    "url": "https://www.mauijim.com/US/en_US/sunglasses/wrap/peahi/H202-10"
+    "name": "Persol PO3019S",
+    "description": "Handmade in Italy, features iconic arrow hinges and crystal lenses.",
+    "url": "https://www.persol.com/usa/PO3019S--95-31/8053672064744.html",
+    "children": [],
+    "price": 280.0,
+    "brand": "Persol",
+    "material": "Acetate",
+    "lensColor": "Green",
+    "feature": "100% UV Protection",
+    "imageUrl": "https://assets.persol.com/is/image/persol/PO3019S__95-31__STD__shad__fr.png"
   },
   {
     "id": "5",
+    "name": "Tom Ford FT5401",
+    "description": "Elegant square frame glasses with subtle logo detailing on the temples.",
+    "url": "https://www.farfetch.com/shopping/men/tom-ford-ft5401-item-15083391.aspx",
+    "children": [],
+    "price": 380.0,
+    "brand": "Tom Ford",
+    "material": "Acetate",
+    "lensColor": "Clear",
+    "feature": "Optional",
+    "imageUrl": "https://cdn-images.farfetch-contents.com/15/08/33/91/15083391_28226903_1000.jpg"
+  },
+  {
+    "id": "6",
+    "name": "Maui Jim Cliff House",
+    "description": "Aviator-style sunglasses with PolarizedPlus2® lens technology and lightweight titanium frame.",
+    "url": "https://www.mauijim.com/US/en_US/sunglasses/aviators/cliff-house-gold-neutral-grey/247-02.html",
+    "children": [],
+    "price": 299.0,
+    "brand": "Maui Jim",
+    "material": "Titanium",
+    "lensColor": "Neutral Grey",
+    "feature": "PolarizedPlus2® UV Protection",
+    "imageUrl": "https://cdn.mauijim.com/eyewear/247-02-angle.jpg"
+  },
+  {
+    "id": "7",
+    "name": "Oliver Peoples Gregory Peck",
+    "description": "Inspired by the iconic style of Gregory Peck in \"To Kill a Mockingbird\", handcrafted in Italy.",
+    "url": "https://www.oliverpeoples.com/usa/gregory-peck/OV5186.html",
+    "children": [],
+    "price": 370.0,
+    "brand": "Oliver Peoples",
+    "material": "Acetate",
+    "lensColor": "Clear",
+    "feature": "Yes",
+    "imageUrl": "https://oliverpeoples.com/on/demandware.static/-/Sites-oliverpeoples-catalog/default/dw2b3bc8a2/images/large/OV5186/OV5186_1485_2.jpg"
+  },
+  {
+    "id": "8",
     "name": "Gucci GG0061S",
-    "description": "Luxury fashion sunglasses with a bold and elegant design. A statement accessory.",
-    "url": "https://www.gucci.com/us/en/pr/women/womens-accessories/womens-sunglasses/gg0061s-002"
+    "description": "Fashion-forward cat-eye frame with signature Gucci design details.",
+    "url": "https://www.gucci.com/us/en/pr/eyewear/womens-eyewear/womens-sunglasses/gg0061s-cat-eye-sunglasses-p-819722J07401090",
+    "children": [],
+    "price": 435.0,
+    "brand": "Gucci",
+    "material": "Acetate",
+    "lensColor": "Black",
+    "feature": "100% UV Protection",
+    "imageUrl": "https://media.gucci.com/style/DarkGray_Center_0_0_980x980/1734985817/819722_J0740_1090_001_100_0000_Light-cat-eye-optical-frame.jpg"
+  },
+  {
+    "id": "9",
+    "name": "Zeiss Blue Light Glasses",
+    "description": "Advanced lenses to reduce blue light exposure and eye strain from screens.",
+    "url": "https://www.zeiss.com/vision-care/int/eye-care/blue-light-protection.html",
+    "children": [],
+    "price": 120.0,
+    "brand": "Zeiss",
+    "material": "Plastic",
+    "lensColor": "Clear (Blue Block)",
+    "feature": "Blue Light Filtering",
+    "imageUrl": "https://www.zeiss.com/content/dam/vision-care/us/products/blue-light/zeiss-blue-protect-lenses.jpg"
+  },
+  {
+    "id": "10",
+    "name": "Moscot Lemtosh",
+    "description": "Timeless Moscot design worn by creatives and intellectuals for decades.",
+    "url": "https://moscot.com/products/lemtosh",
+    "children": [],
+    "price": 300.0,
+    "brand": "Moscot",
+    "material": "Acetate",
+    "lensColor": "Clear",
+    "feature": "Optional",
+    "imageUrl": "https://cdn.shopify.com/s/files/1/0013/8336/products/LEMTOSH_BLONDE_ANGLE_1024x1024.jpg"
   }
 ]
