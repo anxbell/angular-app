@@ -15,4 +15,10 @@ export class DocumentItemComponent {
     url: 'https://example.com/sample-document.pdf',
     children: []
   };
+
+  onImageError(event: any) {
+    // Set a fallback image or emoji if the image fails to load
+    event.target.style.display = 'none';
+    event.target.parentElement.innerHTML = '<div style="font-size: 2.5rem; text-align: center;">👓</div>';
+  }
 }

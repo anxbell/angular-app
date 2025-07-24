@@ -12,48 +12,48 @@ export class DocumentService {
   documentSelectedEvent = new Subject<Document>();
   documentChangedEvent = new Subject<Document[]>();
   maxDocumentId: number;
-  // url: string = 'https://the-cms-project-default-rtdb.firebaseio.com/documents.json';
-  // url: string = 'http://localhost:3000/documents';
-
+  
+  // Update this URL to match your backend server
+  private url: string = 'http://localhost:3000/documents';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   constructor(private http: HttpClient) {
-    this.documents = MOCKDOCUMENTS;
+    this.maxDocumentId = 0;
+    // Initialize with backend data instead of mock data
     this.getDocuments();
-    this.maxDocumentId = this.getMaxId();
-
   }
-  // getDocuments() {
-  //   this.http
-  //     .get<Document[]>(this.url)
-  //     .subscribe(
-  //       (documents: Document[]) => {
-  //         this.documents = documents;
-  //         this.maxDocumentId = this.getMaxId();
-  //         this.documents.sort((a, b) => {
-  //           if (a.name < b.name) return -1;
-  //           if (a.name > b.name) return 1;
-  //           return 0;
-  //         });
-  //         this.documentChangedEvent.next(this.documents.slice());
-  //       },
-  //       (error) => {
-  //         console.error(error);
-  //       }
-  //     );
-  // }
 
   getDocuments() {
-  // Temporarily use mock data instead of HTTP call
-  this.documents = MOCKDOCUMENTS;
-  this.maxDocumentId = this.getMaxId();
-  this.documents.sort((a, b) => {
-    if (a.name < b.name) return -1;
-    if (a.name > b.name) return 1;
-    return 0;
-  });
-  this.documentChangedEvent.next(this.documents.slice());
-}
-
+    this.http.get<Document[]>(this.url).subscribe({
+      next: (documents: Document[]) => {
+        this.documents = documents;
+        this.maxDocumentId = this.getMaxId();
+        this.documents.sort((a, b) => {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        });
+        this.documentChangedEvent.next(this.documents.slice());
+      },
+      error: (error) => {
+        console.error('Error fetching documents:', error);
+        // Fallback to mock data if backend is not available
+        console.log('Falling back to mock data...');
+        this.documents = MOCKDOCUMENTS;
+        this.maxDocumentId = this.getMaxId();
+        this.documents.sort((a, b) => {
+          if (a.name < b.name) return -1;
+          if (a.name > b.name) return 1;
+          return 0;
+        });
+        this.documentChangedEvent.next(this.documents.slice());
+      }
+    });
+  }
 
   getDocument(id: string): Document | null {
     return this.documents.find(doc => doc.id === id) || null;
@@ -63,18 +63,29 @@ export class DocumentService {
     if (!document) {
       return;
     }
-    const pos = this.documents.indexOf(document);
-    if (pos < 0) {
-      return;
-    }
-    this.documents.splice(pos, 1);
-    this.storeDocuments();
-    
-    // const documentsListClone = this.documents.slice();
-    // this.documentChangedEvent.next(documentsListClone);
+
+    this.http.delete(`${this.url}/${document.id}`).subscribe({
+      next: (response) => {
+        console.log('Document deleted successfully:', response);
+        const pos = this.documents.indexOf(document);
+        if (pos >= 0) {
+          this.documents.splice(pos, 1);
+          this.documentChangedEvent.next(this.documents.slice());
+        }
+      },
+      error: (error) => {
+        console.error('Error deleting document:', error);
+        // Still remove from local array as fallback
+        const pos = this.documents.indexOf(document);
+        if (pos >= 0) {
+          this.documents.splice(pos, 1);
+          this.documentChangedEvent.next(this.documents.slice());
+        }
+      }
+    });
   }
 
-    getMaxId(): number {
+  getMaxId(): number {
     let maxId = 0;
     for (let document of this.documents) {
       const currentId = parseInt(document.id);
@@ -85,18 +96,41 @@ export class DocumentService {
     return maxId;
   }
 
-    addDocument(newDocument: Document) {
-      if (!newDocument) {
-        return;
-      }
-
-      this.maxDocumentId++;
-      newDocument.id = this.maxDocumentId.toString();
-      this.documents.push(newDocument);
-      this.storeDocuments();
-      // const documentsListClone = this.documents.slice();
-      // this.documentChangedEvent.next(documentsListClone);
+  addDocument(newDocument: Document) {
+    if (!newDocument) {
+      return;
     }
+
+    // Create a copy without the id for the backend
+    const documentData = { ...newDocument };
+    delete documentData.id; // Let backend assign the ID
+
+    this.http.post<any>(this.url, documentData, this.httpOptions).subscribe({
+      next: (response) => {
+        console.log('Document added successfully:', response);
+        // Add the returned document with the assigned ID
+        if (response.document) {
+          this.documents.push(response.document);
+        } else {
+          // Fallback if response format is different
+          this.maxDocumentId++;
+          newDocument.id = this.maxDocumentId.toString();
+          this.documents.push(newDocument);
+        }
+        this.documents.sort((a, b) => a.name.localeCompare(b.name));
+        this.documentChangedEvent.next(this.documents.slice());
+      },
+      error: (error) => {
+        console.error('Error adding document:', error);
+        // Fallback to local storage
+        this.maxDocumentId++;
+        newDocument.id = this.maxDocumentId.toString();
+        this.documents.push(newDocument);
+        this.documents.sort((a, b) => a.name.localeCompare(b.name));
+        this.documentChangedEvent.next(this.documents.slice());
+      }
+    });
+  }
 
   updateDocument(originalDocument: Document, newDocument: Document) {
     if (!originalDocument || !newDocument) {
@@ -108,20 +142,33 @@ export class DocumentService {
       return;
     }
 
+    // Keep the original ID
     newDocument.id = originalDocument.id;
-    this.documents[pos] = newDocument;
-    this.storeDocuments();
-    // const documentsListClone = this.documents.slice();
-    // this.documentChangedEvent.next(documentsListClone);
+
+    this.http.put(`${this.url}/${originalDocument.id}`, newDocument, this.httpOptions).subscribe({
+      next: (response: any) => {
+        console.log('Document updated successfully:', response);
+        // Update local array
+        if (response.document) {
+          this.documents[pos] = response.document;
+        } else {
+          this.documents[pos] = newDocument;
+        }
+        this.documents.sort((a, b) => a.name.localeCompare(b.name));
+        this.documentChangedEvent.next(this.documents.slice());
+      },
+      error: (error) => {
+        console.error('Error updating document:', error);
+        // Fallback to local update
+        this.documents[pos] = newDocument;
+        this.documents.sort((a, b) => a.name.localeCompare(b.name));
+        this.documentChangedEvent.next(this.documents.slice());
+      }
+    });
   }
 
   storeDocuments() {
+    // This method is now handled by individual CRUD operations
     this.documentChangedEvent.next(this.documents.slice());
-  // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  // this.http.put(this.url, JSON.stringify(this.documents), { headers }).subscribe(() => {
-  //   this.documentChangedEvent.next(this.documents.slice());
-  // });
+  }
 }
-
-}
-

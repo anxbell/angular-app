@@ -5,7 +5,7 @@ const fs = require('fs');
 const router = express.Router();
 
 router.get('/', function (req, res, next) {
-  const filePath = path.join(__dirname, '../../dist/cms/browser/index.html');
+  const filePath = path.join(__dirname, '../../dist/app/browser/index.html');
   console.log('Serving:', filePath);
 
   fs.access(filePath, fs.constants.F_OK, (err) => {
@@ -17,4 +17,4 @@ router.get('/', function (req, res, next) {
   });
 });
 
-module.exports = router;
+module.exports = router; 

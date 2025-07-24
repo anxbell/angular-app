@@ -12,7 +12,13 @@ import { Subscription } from 'rxjs';
 export class DocumentListComponent implements OnInit, OnDestroy {
 
   documents: Document[] = [];
+  filteredDocuments: Document[] = [];
   subscription: Subscription;
+  
+  // Filter and search properties
+  searchTerm: string = '';
+  selectedFilter: string = 'all';
+  sortBy: string = 'name';
 
   constructor(private documentService: DocumentService) {}
 
@@ -21,6 +27,7 @@ export class DocumentListComponent implements OnInit, OnDestroy {
 
     this.subscription = this.documentService.documentChangedEvent.subscribe((documents: Document[]) => {
       this.documents = documents;
+      this.applyFiltersAndSort();
     });
   }
 
@@ -28,6 +35,80 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  onSearch() {
+    this.applyFiltersAndSort();
+  }
+
+  filterBy(filter: string) {
+    this.selectedFilter = filter;
+    this.applyFiltersAndSort();
+  }
+
+  onSort() {
+    this.applyFiltersAndSort();
+  }
+
+  clearFilters() {
+    this.searchTerm = '';
+    this.selectedFilter = 'all';
+    this.sortBy = 'name';
+    this.applyFiltersAndSort();
+  }
+
+  private applyFiltersAndSort() {
+    let filtered = [...this.documents];
+
+    // Apply search filter
+    if (this.searchTerm.trim()) {
+      const searchLower = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(doc => 
+        doc.name.toLowerCase().includes(searchLower) ||
+        doc.brand?.toLowerCase().includes(searchLower) ||
+        doc.description?.toLowerCase().includes(searchLower) ||
+        doc.frameType?.toLowerCase().includes(searchLower) ||
+        doc.lensColor?.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Apply category filter
+    if (this.selectedFilter !== 'all') {
+      if (this.selectedFilter === 'sunglasses') {
+        filtered = filtered.filter(doc => 
+          doc.uvProtection?.includes('UV') || 
+          doc.lensColor?.toLowerCase().includes('dark') ||
+          doc.lensColor?.toLowerCase().includes('black') ||
+          doc.lensColor?.toLowerCase().includes('brown') ||
+          doc.uvProtection?.includes('Polarized')
+        );
+      } else if (this.selectedFilter === 'eyeglasses') {
+        filtered = filtered.filter(doc => 
+          doc.lensColor?.toLowerCase().includes('clear') ||
+          doc.uvProtection?.includes('Blue Light') ||
+          doc.uvProtection?.includes('Anti-Reflective') ||
+          (!doc.uvProtection?.includes('UV') && !doc.uvProtection?.includes('Polarized'))
+        );
+      }
+    }
+
+    // Apply sorting
+    switch (this.sortBy) {
+      case 'name':
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'price-low':
+        filtered.sort((a, b) => (a.price || 0) - (b.price || 0));
+        break;
+      case 'price-high':
+        filtered.sort((a, b) => (b.price || 0) - (a.price || 0));
+        break;
+      case 'brand':
+        filtered.sort((a, b) => (a.brand || '').localeCompare(b.brand || ''));
+        break;
+    }
+
+    this.filteredDocuments = filtered;
   }
 
   getAveragePrice(): number {
@@ -49,5 +130,11 @@ export class DocumentListComponent implements OnInit, OnDestroy {
         .map(doc => doc.brand)
     );
     return brands.size;
+  }
+
+  getPolarizedCount(): number {
+    return this.documents.filter(doc => 
+      doc.uvProtection?.includes('Polarized')
+    ).length;
   }
 }

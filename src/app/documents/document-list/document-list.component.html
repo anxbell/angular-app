@@ -1,33 +1,150 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <div class="row pad-left-right">
-      <span class="pull-left title">👓 Eyeglasses Collection</span>
-      <a [routerLink]="['new']" class="btn btn-success pull-right">
-        <span class="glyphicon glyphicon-plus"></span> Add New Eyeglasses
-      </a>
+<!-- Document List HTML -->
+<div class="eyeglasses-catalog">
+  <!-- Header Section -->
+  <div class="catalog-header">
+    <div class="header-content">
+      <div class="title-section">
+        <div class="glasses-icon">👓</div>
+        <div>
+          <h1 class="catalog-title">Premium Eyewear Collection</h1>
+          <p class="catalog-subtitle">Discover your perfect pair of glasses</p>
+        </div>
+      </div>
+      <button [routerLink]="['new']" class="add-button">
+        <span class="plus-icon">+</span>
+        Add New Eyeglasses
+      </button>
     </div>
   </div>
-  <div class="panel-body eyeglasses-grid">
-    <div class="center-panel">
-      <cms-document-item 
-        *ngFor="let document of documents"
-        [document]="document"
-      >
-      </cms-document-item>
+
+  <!-- Filter and Search Section -->
+  <div class="filters-section">
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Search eyeglasses..." 
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        class="search-input">
+      <span class="search-icon">🔍</span>
+    </div>
+    
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter === 'all'"
+        (click)="filterBy('all')">
+        All ({{ documents.length }})
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter === 'sunglasses'"
+        (click)="filterBy('sunglasses')">
+        Sunglasses
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter === 'eyeglasses'"
+        (click)="filterBy('eyeglasses')">
+        Eyeglasses
+      </button>
+    </div>
+
+    <div class="sort-dropdown">
+      <select [(ngModel)]="sortBy" (change)="onSort()" class="sort-select">
+        <option value="name">Sort by Name</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="brand">Sort by Brand</option>
+      </select>
     </div>
   </div>
-  
-  <!-- Summary Info -->
-  <div class="panel-footer" *ngIf="documents.length > 0">
-    <div class="row">
-      <div class="col-md-4 text-center">
-        <strong>Total Items:</strong> {{ documents.length }}
+
+  <!-- Products Grid -->
+  <div class="products-grid" *ngIf="filteredDocuments.length > 0">
+    <div 
+      *ngFor="let document of filteredDocuments" 
+      class="product-card"
+      [routerLink]="[document.id]"
+      routerLinkActive="active">
+      
+      <!-- Product Image Placeholder -->
+      <div class="product-image">
+        <div class="eyeglasses-visual">
+          <div class="frame"></div>
+          <div class="lens left-lens"></div>
+          <div class="lens right-lens"></div>
+          <div class="bridge"></div>
+        </div>
+        <div class="product-badge" *ngIf="document.uvProtection?.includes('Polarized')">
+          Polarized
+        </div>
       </div>
-      <div class="col-md-4 text-center">
-        <strong>Avg Price:</strong> ${{ getAveragePrice() | number:'1.2-2' }}
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <div class="brand-name">{{ document.brand || 'Premium Brand' }}</div>
+        <h3 class="product-name">{{ document.name }}</h3>
+        
+        <div class="product-features">
+          <span class="feature-tag" *ngIf="document.frameType">
+            {{ document.frameType }}
+          </span>
+          <span class="feature-tag" *ngIf="document.lensColor">
+            {{ document.lensColor }}
+          </span>
+        </div>
+
+        <div class="product-description">
+          {{ document.description | slice:0:80 }}{{ document.description && document.description.length > 80 ? '...' : '' }}
+        </div>
+
+        <div class="product-footer">
+          <div class="price" *ngIf="document.price">
+            ${{ document.price.toFixed(2) }}
+          </div>
+          <div class="uv-protection" *ngIf="document.uvProtection">
+            <span class="protection-icon">🛡️</span>
+            {{ document.uvProtection }}
+          </div>
+        </div>
       </div>
-      <div class="col-md-4 text-center">
-        <strong>Brands:</strong> {{ getUniqueBrands() }}
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="filteredDocuments.length === 0 && documents.length > 0">
+    <div class="empty-icon">🔍</div>
+    <h3>No eyeglasses found</h3>
+    <p>Try adjusting your search or filter criteria</p>
+    <button (click)="clearFilters()" class="clear-filters-btn">Clear Filters</button>
+  </div>
+
+  <div class="empty-state" *ngIf="documents.length === 0">
+    <div class="empty-icon">👓</div>
+    <h3>No eyeglasses in catalog</h3>
+    <p>Start building your collection by adding your first pair</p>
+    <button [routerLink]="['new']" class="add-first-btn">Add First Eyeglasses</button>
+  </div>
+
+  <!-- Statistics Footer -->
+  <div class="catalog-stats" *ngIf="documents.length > 0">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number">{{ documents.length }}</div>
+        <div class="stat-label">Total Items</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">${{ getAveragePrice() | number:'1.2-2' }}</div>
+        <div class="stat-label">Avg Price</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ getUniqueBrands() }}</div>
+        <div class="stat-label">Brands</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">{{ getPolarizedCount() }}</div>
+        <div class="stat-label">Polarized</div>
       </div>
     </div>
   </div>

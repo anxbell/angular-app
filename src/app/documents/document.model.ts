@@ -9,6 +9,7 @@ export class Document {
     public brand?: string,
     public frameType?: string,
     public lensColor?: string,
-    public uvProtection?: string
+    public uvProtection?: string,
+    public imageUrl?: string
   ) {}
 }

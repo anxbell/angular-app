@@ -1,163 +1,331 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3>{{ editMode ? 'Edit Eyeglasses' : 'Add New Eyeglasses' }}</h3>
-	</div>
-	<div class="panel-body">
+<!-- Modern Document Edit Form -->
+<div class="edit-form-container">
+  <div class="form-header">
+    <div class="form-icon-wrapper">
+      <div class="eyeglasses-visual">
+        <div class="frame"></div>
+        <div class="lens left-lens"></div>
+        <div class="lens right-lens"></div>
+        <div class="bridge"></div>
+      </div>
+    </div>
+    <div class="header-content">
+      <h1 class="form-title">
+        {{ editMode ? 'Edit Eyeglasses' : 'Add New Eyeglasses' }}
+      </h1>
+      <p class="form-subtitle">
+        {{ editMode ? 'Update the details of your eyeglasses' : 'Create a new entry in your eyeglasses collection' }}
+      </p>
+    </div>
+  </div>
 
-		<form id="document-edit" #f="ngForm" (ngSubmit)="onSubmit(f)">
-			<div class="row">
+  <div class="form-content">
+    <form id="document-edit" #f="ngForm" (ngSubmit)="onSubmit(f)" class="modern-form">
+      
+      <!-- Basic Information Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <div class="icon-circle">
+              <span class="section-number">1</span>
+            </div>
+          </div>
+          <div class="section-info">
+            <h2 class="section-title">Basic Information</h2>
+            <p class="section-description">Enter the essential details of the eyeglasses</p>
+          </div>
+        </div>
 
-				<!-- Product Name -->
-				<div class="col-sm-12 form-group">
-					<label for="name">Product Name *</label>
-					<input 
-						#name="ngModel" 
-						name="name" 
-						type="text" 
-						id="name" 
-						class="form-control" 
-						size="120" 
-						maxlength="120"
-						placeholder="e.g., Ray-Ban Aviator Classic"
-						[(ngModel)]="document.name" 
-						required>
-					<div *ngIf="name.invalid && name.touched" class="text-danger">
-						Product name is required
-					</div>
-				</div>
+        <div class="form-grid">
+          <!-- Product Name -->
+          <div class="form-group full-width">
+            <label for="name" class="form-label">
+              <span class="label-text">Product Name</span>
+              <span class="required-indicator">*</span>
+            </label>
+            <div class="input-container">
+              <input 
+                #name="ngModel" 
+                name="name" 
+                type="text" 
+                id="name" 
+                class="form-input" 
+                [class.error]="name.invalid && name.touched"
+                size="120" 
+                maxlength="120"
+                placeholder="e.g., Ray-Ban Aviator Classic"
+                [(ngModel)]="document.name" 
+                required>
+              <div class="input-focus-line"></div>
+            </div>
+            <div class="error-message" *ngIf="name.invalid && name.touched">
+              <span class="error-icon">!</span>
+              Product name is required
+            </div>
+          </div>
 
-				<!-- Brand -->
-				<div class="col-sm-6 form-group">
-					<label for="brand">Brand</label>
-					<input 
-						name="brand" 
-						type="text" 
-						id="brand" 
-						class="form-control" 
-						maxlength="50"
-						placeholder="e.g., Ray-Ban, Oakley, Warby Parker"
-						[(ngModel)]="document.brand">
-				</div>
+          <!-- Brand -->
+          <div class="form-group">
+            <label for="brand" class="form-label">
+              <span class="label-text">Brand</span>
+            </label>
+            <div class="input-container">
+              <input 
+                name="brand" 
+                type="text" 
+                id="brand" 
+                class="form-input" 
+                maxlength="50"
+                placeholder="e.g., Ray-Ban, Oakley, Warby Parker"
+                [(ngModel)]="document.brand">
+              <div class="input-focus-line"></div>
+            </div>
+          </div>
 
-				<!-- Price -->
-				<div class="col-sm-6 form-group">
-					<label for="price">Price ($)</label>
-					<input 
-						name="price" 
-						type="number" 
-						id="price" 
-						class="form-control" 
-						min="0" 
-						step="0.01"
-						placeholder="0.00"
-						[(ngModel)]="document.price">
-				</div>
+          <!-- Price -->
+          <div class="form-group">
+            <label for="price" class="form-label">
+              <span class="label-text">Price</span>
+            </label>
+            <div class="input-container price-input">
+              <span class="currency-symbol">$</span>
+              <input 
+                name="price" 
+                type="number" 
+                id="price" 
+                class="form-input with-currency" 
+                min="0" 
+                step="0.01"
+                placeholder="0.00"
+                [(ngModel)]="document.price">
+              <div class="input-focus-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-				<!-- Frame Type -->
-				<div class="col-sm-6 form-group">
-					<label for="frameType">Frame Type</label>
-					<select 
-						name="frameType" 
-						id="frameType" 
-						class="form-control"
-						[(ngModel)]="document.frameType">
-						<option value="">Select frame type</option>
-						<option value="Metal">Metal</option>
-						<option value="Acetate">Acetate</option>
-						<option value="TR90">TR90</option>
-						<option value="Titanium">Titanium</option>
-						<option value="Plastic">Plastic</option>
-						<option value="O Matter">O Matter</option>
-						<option value="Mixed">Mixed Materials</option>
-					</select>
-				</div>
+      <!-- Product Specifications Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <div class="icon-circle">
+              <span class="section-number">2</span>
+            </div>
+          </div>
+          <div class="section-info">
+            <h2 class="section-title">Product Specifications</h2>
+            <p class="section-description">Define the technical details and features</p>
+          </div>
+        </div>
 
-				<!-- Lens Color -->
-				<div class="col-sm-6 form-group">
-					<label for="lensColor">Lens Color</label>
-					<input 
-						name="lensColor" 
-						type="text" 
-						id="lensColor" 
-						class="form-control" 
-						maxlength="50"
-						placeholder="e.g., Clear, Crystal Green, Brown"
-						[(ngModel)]="document.lensColor">
-				</div>
+        <div class="form-grid">
+          <!-- Frame Type -->
+          <div class="form-group">
+            <label for="frameType" class="form-label">
+              <span class="label-text">Frame Type</span>
+            </label>
+            <div class="select-container">
+              <select 
+                name="frameType" 
+                id="frameType" 
+                class="form-select"
+                [(ngModel)]="document.frameType">
+                <option value="">Select frame type</option>
+                <option value="Metal">Metal</option>
+                <option value="Acetate">Acetate</option>
+                <option value="TR90">TR90</option>
+                <option value="Titanium">Titanium</option>
+                <option value="Plastic">Plastic</option>
+                <option value="O Matter">O Matter</option>
+                <option value="Mixed">Mixed Materials</option>
+              </select>
+              <div class="select-arrow">
+                <span class="arrow-down"></span>
+              </div>
+            </div>
+          </div>
 
-				<!-- UV Protection -->
-				<div class="col-sm-12 form-group">
-					<label for="uvProtection">UV Protection</label>
-					<select 
-						name="uvProtection" 
-						id="uvProtection" 
-						class="form-control"
-						[(ngModel)]="document.uvProtection">
-						<option value="">Select protection type</option>
-						<option value="100% UV">100% UV Protection</option>
-						<option value="100% UV + Polarized">100% UV + Polarized</option>
-						<option value="Blue Light Blocking">Blue Light Blocking</option>
-						<option value="Anti-Reflective">Anti-Reflective</option>
-						<option value="UV Protection Available">UV Protection Available</option>
-					</select>
-				</div>
+          <!-- Lens Color -->
+          <div class="form-group">
+            <label for="lensColor" class="form-label">
+              <span class="label-text">Lens Color</span>
+            </label>
+            <div class="input-container">
+              <input 
+                name="lensColor" 
+                type="text" 
+                id="lensColor" 
+                class="form-input" 
+                maxlength="50"
+                placeholder="e.g., Clear, Crystal Green, Brown"
+                [(ngModel)]="document.lensColor">
+              <div class="input-focus-line"></div>
+            </div>
+          </div>
 
-				<!-- Description -->
-				<div class="col-sm-12 form-group">
-					<label for="description">Description</label>
-					<textarea 
-						name="description" 
-						id="description" 
-						class="form-control" 
-						rows="4"
-						maxlength="500"
-						placeholder="Describe the eyeglasses features, style, and benefits..."
-						[(ngModel)]="document.description"></textarea>
-				</div>
+          <!-- UV Protection -->
+          <div class="form-group full-width">
+            <label for="uvProtection" class="form-label">
+              <span class="label-text">UV Protection</span>
+            </label>
+            <div class="select-container">
+              <select 
+                name="uvProtection" 
+                id="uvProtection" 
+                class="form-select"
+                [(ngModel)]="document.uvProtection">
+                <option value="">Select protection type</option>
+                <option value="100% UV">100% UV Protection</option>
+                <option value="100% UV + Polarized">100% UV + Polarized</option>
+                <option value="Blue Light Blocking">Blue Light Blocking</option>
+                <option value="Anti-Reflective">Anti-Reflective</option>
+                <option value="UV Protection Available">UV Protection Available</option>
+              </select>
+              <div class="select-arrow">
+                <span class="arrow-down"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-				<!-- Product URL -->
-				<div class="col-sm-12 form-group">
-					<label for="url">Product URL *</label>
-					<input 
-						#url="ngModel" 
-						name="url" 
-						type="url" 
-						id="url" 
-						class="form-control" 
-						maxlength="255"
-						placeholder="https://example.com/product"
-						[(ngModel)]="document.url" 
-						required>
-					<div *ngIf="url.invalid && url.touched" class="text-danger">
-						A valid product URL is required
-					</div>
-				</div>
-			</div>
-			
-			<div class="alert alert-danger" *ngIf="(name.invalid || url.invalid) && (name.touched || url.touched)">
-				Product name and URL are required fields!
-			</div>
+      <!-- Description Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <div class="icon-circle">
+              <span class="section-number">3</span>
+            </div>
+          </div>
+          <div class="section-info">
+            <h2 class="section-title">Product Description</h2>
+            <p class="section-description">Describe the eyeglasses features and benefits</p>
+          </div>
+        </div>
 
-			<div class="row">
-				<div class="col-xs-12 btn-toolbar">
-					<button 
-						class="btn btn-success" 
-						type="submit" 
-						[disabled]="!f.valid">
-						<span class="glyphicon glyphicon-floppy-disk"></span>
-						{{ editMode ? 'Update' : 'Save' }}
-					</button>
-					<button 
-						class="btn btn-secondary" 
-						type="button" 
-						(click)="onCancel()">
-						<span class="glyphicon glyphicon-remove"></span>
-						Cancel
-					</button>
-				</div>
-			</div>
+        <div class="form-group full-width">
+          <label for="description" class="form-label">
+            <span class="label-text">Description</span>
+          </label>
+          <div class="textarea-container">
+            <textarea 
+              name="description" 
+              id="description" 
+              class="form-textarea" 
+              rows="4"
+              maxlength="500"
+              placeholder="Describe the eyeglasses features, style, and benefits..."
+              [(ngModel)]="document.description"></textarea>
+            <div class="character-counter">
+              <span class="char-count">{{ (document.description?.length || 0) }}</span>
+              <span class="char-limit">/500</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-		</form>
+      <!-- Product URL Section -->
+      <div class="form-section">
+        <div class="section-header">
+          <div class="section-icon">
+            <div class="icon-circle">
+              <span class="section-number">4</span>
+            </div>
+          </div>
+          <div class="section-info">
+            <h2 class="section-title">Product Link</h2>
+            <p class="section-description">Provide the official product URL</p>
+          </div>
+        </div>
 
-	</div>
+        <div class="form-group full-width">
+          <label for="url" class="form-label">
+            <span class="label-text">Product URL</span>
+            <span class="required-indicator">*</span>
+          </label>
+          <div class="input-container">
+            <input 
+              #url="ngModel" 
+              name="url" 
+              type="url" 
+              id="url" 
+              class="form-input" 
+              [class.error]="url.invalid && url.touched"
+              maxlength="255"
+              placeholder="https://example.com/product"
+              [(ngModel)]="document.url" 
+              required>
+            <div class="input-focus-line"></div>
+          </div>
+          <div class="error-message" *ngIf="url.invalid && url.touched">
+            <span class="error-icon">!</span>
+            A valid product URL is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Validation Summary -->
+      <div class="validation-alert" *ngIf="(name.invalid || url.invalid) && (name.touched || url.touched)">
+        <div class="alert-icon">
+          <span class="warning-symbol">⚠</span>
+        </div>
+        <div class="alert-content">
+          <strong>Required fields missing</strong>
+          <p>Please fill in all required fields before saving</p>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <div class="actions-container">
+          <button 
+            class="btn btn-cancel" 
+            type="button" 
+            (click)="onCancel()">
+            <span class="btn-text">Cancel</span>
+          </button>
+          
+          <button 
+            class="btn btn-save" 
+            type="button"
+            [disabled]="!f.valid"
+            [class.disabled]="!f.valid"
+            (click)="onSubmit(f)">
+            <span class="btn-text">{{ editMode ? 'Update' : 'Save' }}</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Debug Info (for development) -->
+      <div class="debug-panel" *ngIf="showDebug">
+        <div class="debug-header">
+          <h4>Debug Information</h4>
+        </div>
+        <div class="debug-content">
+          <div class="debug-item">
+            <span class="debug-label">Form Valid:</span>
+            <span class="debug-value" [class.success]="f.valid" [class.error]="!f.valid">{{f.valid}}</span>
+          </div>
+          <div class="debug-item">
+            <span class="debug-label">Form Submitted:</span>
+            <span class="debug-value">{{f.submitted}}</span>
+          </div>
+          <div class="debug-item">
+            <span class="debug-label">Name Valid:</span>
+            <span class="debug-value" [class.success]="name.valid" [class.error]="!name.valid">{{name.valid}}</span>
+          </div>
+          <div class="debug-item">
+            <span class="debug-label">URL Valid:</span>
+            <span class="debug-value" [class.success]="url.valid" [class.error]="!url.valid">{{url.valid}}</span>
+          </div>
+          <div class="debug-item">
+            <span class="debug-label">Edit Mode:</span>
+            <span class="debug-value">{{editMode}}</span>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
 </div>

@@ -2,9 +2,12 @@
   [routerLink]="[document.id]"
   routerLinkActive="active">
   
-  <!-- Eyeglasses Icon -->
-  <div class="eyeglasses-icon">
-    👓
+  <!-- Eyeglasses Image -->
+  <div class="eyeglasses-image">
+    <img 
+      [src]="document.imageUrl || 'assets/images/default-glasses.png'" 
+      [alt]="document.name"
+      (error)="onImageError($event)">
   </div>
   
   <!-- Product Name -->

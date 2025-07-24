@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "name": "Ray-Ban Aviator Classic",
+    "description": "Iconic metal frame sunglasses with crystal green lenses. Perfect for outdoor activities and driving.",
+    "url": "https://www.ray-ban.com/usa/sunglasses/RB3025%20UNISEX%20aviator%20classic-gold/805289439899"
+  },
+  {
+    "id": "2",
+    "name": "Oakley Holbrook",
+    "description": "Classic design fused with modern Oakley technology. Lightweight and comfortable for all-day wear.",
+    "url": "https://www.oakley.com/en-us/product/W0OO9102?variant=888392490127"
+  },
+  {
+    "id": "3",
+    "name": "Persol PO0649",
+    "description": "Stylish acetate frame with signature arrow temples. A timeless favorite among celebrities.",
+    "url": "https://www.persol.com/usa/sunglasses/PO0649-black/8052896020577"
+  },
+  {
+    "id": "4",
+    "name": "Maui Jim Peahi",
+    "description": "Polarized wrap sunglasses designed for active lifestyles. Excellent clarity and color enhancement.",
+    "url": "https://www.mauijim.com/US/en_US/sunglasses/wrap/peahi/H202-10"
+  },
+  {
+    "id": "5",
+    "name": "Gucci GG0061S",
+    "description": "Luxury fashion sunglasses with a bold and elegant design. A statement accessory.",
+    "url": "https://www.gucci.com/us/en/pr/women/womens-accessories/womens-sunglasses/gg0061s-002"
+  }
+]

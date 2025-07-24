@@ -12,8 +12,18 @@ const documentSchema = new mongoose.Schema({
     name: {type: String, required: true},
     url: {type: String, required: true},
     description: {type: String},
-    children: [childSchema] //array of child obj
+    children: [childSchema],
+    price: {type: Number, min: 0},
+    brand: {type: String, maxlength: 50},
+    frameType: {
+        type: String, 
+        enum: ['Metal', 'Acetate', 'TR90', 'Titanium', 'Plastic', 'O Matter', 'Mixed', '']
+    },
+    lensColor: {type: String, maxlength: 50},
+    uvProtection: {
+        type: String,
+        enum: ['100% UV', '100% UV + Polarized', 'Blue Light Blocking', 'Anti-Reflective', 'UV Protection Available', '']
+    }
 });
 
-module.exports = mongoose.model('Document', documentSchema);
-
+module.exports = mongoose.model('Document', documentSchema); 
